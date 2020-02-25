@@ -5,4 +5,4 @@ Każda osoba powinna mieć własny branch nazwany imieniem i nazwiskiem.
 
 Przy wrzucaniu zadania prosiłbym o zachowanie następującej struktury folderów (pozwoli nam to sensownie zmergeować wszystko na mastera):
 
-Nazwa_przedmiotu>nr_ps>imie_nazwisko>[nazwa zadania]
+Nazwa_przedmiotu>nr_ps>nazwa_zadania_osoba_rozwiazujaca
