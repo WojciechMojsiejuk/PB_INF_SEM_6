@@ -24,15 +24,5 @@ namespace BSKPS01_02
         {
             InitializeComponent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            output.Text = Zadanie5_WM.Cypher(messageInput.Text, keyInput.Text);
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            output.Text = Zadanie5_WM.Decypher(messageInput.Text, keyInput.Text);
-        }
     }
 }
