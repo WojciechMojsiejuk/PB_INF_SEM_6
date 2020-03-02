@@ -1,2 +1,4 @@
-
-BSK/PS02_03/BSKPS01_02/.vs/BSKPS01_02/v16/Server/sqlite3/db.lock
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal
