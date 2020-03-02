@@ -21,21 +21,21 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Center">Message:</Label>
-        <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="messageInput"></TextBox>
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
             <Label  VerticalAlignment="Center" HorizontalContentAlignment="Center">N:</Label>
-            <TextBox Width="100"></TextBox>
+            <TextBox Width="100" x:Name="nInput"></TextBox>
             <Label  VerticalAlignment="Center" HorizontalContentAlignment="Center">K0:</Label>
-            <TextBox Width="100"></TextBox>
+            <TextBox Width="100" x:Name="k0Input"></TextBox>
             <Label  VerticalAlignment="Center" HorizontalContentAlignment="Center">K1:</Label>
-            <TextBox Width="100"></TextBox>
+            <TextBox Width="100" x:Name="k1Input"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Padding="20,10,20,10" Margin="20,0,20,0">Cipher</Button>
             <Button Padding="20,10,20,10" Margin="20,0,20,0">Decipher</Button>
         </StackPanel>
         <GroupBox Header="Results" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <Label ></Label>
+            <TextBox x:Name="output" IsReadOnly="True" ></TextBox>
         </GroupBox>
     </Grid>
 </Page>

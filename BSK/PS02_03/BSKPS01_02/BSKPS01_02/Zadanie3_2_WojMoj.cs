@@ -12,9 +12,9 @@ namespace  BSKPS01_02
         public static string Cypher(string message, string keyword)
         {
             //deleting whitespaces
-            string trimmedMessage = string.Concat(message.Where(c => !char.IsWhiteSpace(c)));
+            message = string.Concat(message.Where(c => !char.IsWhiteSpace(c)));
             //changing string to uppercase
-            trimmedMessage = trimmedMessage.ToUpper();
+            message = message.ToUpper();
             //changing string to uppercase
             string key = keyword.ToUpper();
             // Assumption: message needs to be shorter than (1+key.Length)*key.Length/2
@@ -73,6 +73,12 @@ namespace  BSKPS01_02
 
         public static string Decypher(string message, string key)
         {
+            if (message.Length > (1 + key.Length) * key.Length / 2)
+            {
+                throw new ArgumentException("Message is too large for the given key");
+            }
+            message = message.ToUpper();
+            key = key.ToUpper();
             string decryptedMessage = "";
             int temp = 0;
             int keyCount = 0;

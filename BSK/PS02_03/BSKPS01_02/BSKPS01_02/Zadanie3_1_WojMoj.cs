@@ -37,6 +37,7 @@ namespace BSKPS01_02
         public static string Decypher(string encryptedMessage, string keyword)
         {
             string key = keyword.ToUpper();
+            encryptedMessage = encryptedMessage.ToUpper();
             int mod = encryptedMessage.Length % key.Length;
             int lines = encryptedMessage.Length / key.Length;
             string[] transpositionMatrix = new string[key.Length];
