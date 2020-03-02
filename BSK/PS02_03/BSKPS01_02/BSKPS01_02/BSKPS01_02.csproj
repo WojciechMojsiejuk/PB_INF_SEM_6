@@ -64,15 +64,18 @@
     <Compile Include="Zadanie3_1.xaml.cs">
       <DependentUpon>Zadanie3_1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Zadanie3_1_WojMoj.cs" />
     <Compile Include="Zadanie3_2.xaml.cs">
       <DependentUpon>Zadanie3_2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Zadanie3_2_WojMoj.cs" />
     <Compile Include="Zadanie4.xaml.cs">
       <DependentUpon>Zadanie4.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zadanie5.xaml.cs">
       <DependentUpon>Zadanie5.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Zadanie5_WojMoj.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
