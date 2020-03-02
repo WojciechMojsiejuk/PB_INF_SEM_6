@@ -11,12 +11,12 @@ namespace BSK_PS01_TranspositionMatrix
 
         static void Main(string[] args)
         {
-            string message = "THEYSPIEDONMYCAMPAIGN";
+            string message = "HEREISASECRETMESSAGEENCIPHEREDBYTRANSPOSITION";
             //deleting whitespaces
             string trimmedMessage = string.Concat(message.Where(c => !char.IsWhiteSpace(c)));
             //changing string to uppercase
             trimmedMessage = trimmedMessage.ToUpper();
-            string key = "SALATKA";
+            string key = "CONVENIENCE";
             //changing string to uppercase
             key = key.ToUpper();
             // Assumption: message needs to be shorter than (1+key.Length)*key.Length/2
@@ -113,30 +113,41 @@ namespace BSK_PS01_TranspositionMatrix
 
             char?[,] transpositionMatrix = new char?[key.Length, depth];
 
+            int characterCount = 0;
+
             BitArray previousIndexes = new BitArray(key.Length);
             for (int i = 0; i < alphabet.Length; i++)
             {
                 for (int j = 0; j < key.Length; j++)
                 {
-                    if (key[j] == alphabet[i])
+                    if (key[j] == alphabet[i] && pivot < message.Length)
                     {
                         previousIndexes.SetAll(false);
                         for (int k = 0; k < j; k++)
                         {
                             previousIndexes[order[k]] = true;
                         }
-                        for (int l = 0; l < depth; l++)
+                        for (int l = 0; l < key.Length; l++)
                         {
-                            if (!previousIndexes[l])
+                            if (previousIndexes[l] == false)
                             {
-                                if(pivot<message.Length)
+                                if(pivot<message.Length && l<depth)
                                 {
                                     transpositionMatrix[j, l] = message[pivot];
                                     pivot++;
+                                    
                                 }
-                                
                             }
                         }
+                        if(characterCount + j+1 - message.Length > 0 && characterCount + j +1 - message.Length<j+1)
+                        {
+                            for(int m = 0; m < characterCount + j + 1 - message.Length; m++)
+                            {
+                                pivot--;
+                                transpositionMatrix[j, depth - m - 1] = null;
+                            }
+                        }
+                        characterCount += j + 1;
                     }
                 }
 
