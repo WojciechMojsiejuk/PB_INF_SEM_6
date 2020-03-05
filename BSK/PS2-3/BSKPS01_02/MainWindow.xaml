@@ -1,0 +1,20 @@
+﻿<Window x:Class="BSKPS01_02.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BSKPS01_02"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Horizontal" Width="auto" Height="30" Margin="5" VerticalAlignment="Top">
+            <Button x:Name="Zadanie1" Height="30" VerticalAlignment="Top" Click="Zadanie1_Click" Margin="10,0,10,0">Zadanie 1</Button>
+            <Button x:Name="Zadanie2" Click="Zadanie2_Click" Margin="10,0,10,0">Zadanie 2</Button>
+            <Button x:Name="Zadanie31" Click="Zadanie31_Click" Margin="10,0,10,0">Zadanie 3.1</Button>
+            <Button x:Name="Zadanie32" Height="30" VerticalAlignment="Top" Click="Zadanie32_Click" Margin="10,0,10,0">Zadanie 3.2</Button>
+            <Button x:Name="Zadanie4" Click="Zadanie4_Click" Margin="10,0,10,0" >Zadanie 4</Button>
+            <Button x:Name="Zadanie5" Click="Zadanie5_Click" Margin="10,0,10,0">Zadanie 5</Button>
+        </StackPanel>
+        <Frame x:Name="Main" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>
