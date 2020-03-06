@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -81,20 +82,8 @@ namespace BSKPS01_02
 
 
             fi--;//bo wzór do potęgi jest fi(n)-1
-
-            double  pom = 1, x = k1 % n;
-            int fi_pom = int.Parse(fi.ToString());
-            for (int i = 1; i <= fi_pom; i++)
-            {
-                x %= n;
-                if ((fi_pom & i) != 0)
-                {
-                    pom *= x;
-                    pom %= n;
-                }
-                x *= x;
-
-            }
+            
+            BigInteger pow = BigInteger.Pow(k1, int.Parse(fi.ToString()));
 
             int[] alphabet = new int[n];
             for (int i = 0; i < n; i++)
@@ -103,7 +92,7 @@ namespace BSKPS01_02
             }
 
           //  double pow = Math.Pow(k1, fi);
-            double[] tab_decrypt = new double[text.Length];
+            BigInteger[] tab_decrypt = new BigInteger[text.Length];
             for (int i = 0; i < text.Length; i++)
             {
                 int a = (int)text[i];
@@ -111,7 +100,11 @@ namespace BSKPS01_02
                 {
                     if (a == alphabet[j])
                     {
-                        double c = ((j + n - k0) * pom) % n;
+                        BigInteger c = ((j + (n - k0)) * pow) % n;
+                        if (c < 0)
+                        {
+                            c += n;
+                        }
                         tab_decrypt[i] = c;
                     }
                 }
