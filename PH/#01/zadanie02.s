@@ -5,11 +5,23 @@ section .text
 start:
     mov rax, 12
     mov rbx, 17
-    add rax, rbx
+    sub rax, rbx
 
     mov rbx, 93
-    add rax, rbx
+    sub rax, rbx
 
+    jns positive
+    neg rax
+
+    push rax
+    mov rdx, 1
+    mov rsi, minus
+    mov rdi, 1 ; stdout
+    mov rax, 0x2000004 ; write
+    syscall
+    pop rax
+
+positive:
     mov rbx, rax ;rbx - division
 
 l1:
@@ -54,6 +66,7 @@ l2:
 section .data
 
     endl    db      0xa
+    minus   db      0x2d
     len     db      0
 
 section .bss
