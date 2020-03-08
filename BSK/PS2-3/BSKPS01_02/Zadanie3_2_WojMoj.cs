@@ -17,30 +17,31 @@ namespace  BSKPS01_02
             message = message.ToUpper();
             //changing string to uppercase
             string key = keyword.ToUpper();
-            // Assumption: message needs to be shorter than (1+key.Length)*key.Length/2
-            if (message.Length > (1 + key.Length) * key.Length / 2)
-            {
-                throw new ArgumentException("Message is too large for the given key");
-            }
+            double blockSize = ((1 + key.Length) * key.Length / 2);
+            int blocksNumber = (int)Math.Ceiling(message.Length/ blockSize);
+           
             string encryptedMessage = "";
-            char?[,] transpositionMatrix = new char?[key.Length, key.Length];
+            char?[,] transpositionMatrix = new char?[key.Length*blocksNumber, key.Length];
             int index = 0;
             int messageIndex = 0;
-            for (int i = 0; i < alphabet.Length; i++)
+            for(int block = 0; block<blockSize; block++)
             {
-                for (int j = 0; j < key.Length; j++)
+                for (int i = 0; i < alphabet.Length; i++)
                 {
-                    if (key[j] == alphabet[i])
+                    for (int j = 0; j < key.Length; j++)
                     {
-                        for (int k = 0; k <= j; k++)
+                        if (key[j] == alphabet[i])
                         {
-                            if (messageIndex < message.Length)
+                            for (int k = 0; k <= j; k++)
                             {
-                                transpositionMatrix[index, k] = message[messageIndex];
-                                messageIndex++;
+                                if (messageIndex < message.Length)
+                                {
+                                    transpositionMatrix[index, k] = message[messageIndex];
+                                    messageIndex++;
+                                }
                             }
+                            index++;
                         }
-                        index++;
                     }
                 }
             }
@@ -50,7 +51,7 @@ namespace  BSKPS01_02
                 {
                     if (key[j] == alphabet[i])
                     {
-                        for (int k = 0; k < key.Length; k++)
+                        for (int k = 0; k < key.Length*blocksNumber; k++)
                         {
                             if (transpositionMatrix[k, j].HasValue)
                             {
@@ -60,7 +61,7 @@ namespace  BSKPS01_02
                     }
                 }
             }
-            for(int i = 0; i< key.Length; i++)
+            for(int i = 0; i< key.Length*blocksNumber; i++)
             {
                 for(int j = 0; j<key.Length; j++)
                 {
@@ -73,10 +74,6 @@ namespace  BSKPS01_02
 
         public static string Decypher(string message, string key)
         {
-            if (message.Length > (1 + key.Length) * key.Length / 2)
-            {
-                throw new ArgumentException("Message is too large for the given key");
-            }
             message = message.ToUpper();
             key = key.ToUpper();
             string decryptedMessage = "";
@@ -85,33 +82,39 @@ namespace  BSKPS01_02
             int depth = 0;
             int[] order = new int[key.Length];
             int pivot = 0;
-            bool endOfMessage = false;
-            for (int i = 0; i < alphabet.Length; i++)
+            double blockSize = ((1 + key.Length) * key.Length / 2);
+            int blocksNumber = (int)Math.Ceiling(message.Length / blockSize);
+           
+            for(int block = 0; block<blocksNumber; block++)
             {
-                for (int j = 0; j < key.Length; j++)
+                for (int i = 0; i < alphabet.Length; i++)
                 {
-                    if (key[j] == alphabet[i])
+                    for (int j = 0; j < key.Length; j++)
                     {
-                        order[j] = keyCount;
-                        keyCount++;
-                        temp += j + 1;
-                        if (temp < message.Length)
+                        if (key[j] == alphabet[i])
                         {
-                            depth = keyCount+1;
+                            if(block == 0)
+                            { 
+                                order[j] = keyCount;
+                            }
+                            keyCount++;
+                            temp += j + 1;
+                            if (temp < message.Length)
+                            {
+                                depth = keyCount + 1;
+                            }
                         }
                     }
                 }
-                if(endOfMessage)
-                {
-                    break;
-                }
             }
-
+            
             char?[,] transpositionMatrix = new char?[key.Length, depth];
 
             int characterCount = 0;
 
             BitArray previousIndexes = new BitArray(key.Length);
+            int depthCounter = 0;
+
             for (int i = 0; i < alphabet.Length; i++)
             {
                 for (int j = 0; j < key.Length; j++)
@@ -123,21 +126,28 @@ namespace  BSKPS01_02
                         {
                             previousIndexes[order[k]] = true;
                         }
-                        for (int l = 0; l < key.Length; l++)
+
+                        depthCounter = 0;
+                        for (int l = 0; l < key.Length*blocksNumber; l++)
                         {
-                            if (previousIndexes[l] == false)
+                            if(l == key.Length*(blocksNumber-1))
                             {
-                                if(pivot<message.Length && l<depth)
+                                depthCounter = (blocksNumber - 1) * (int)blockSize;
+                            }
+                            if (previousIndexes[l%key.Length] == false)
+                            {
+                                depthCounter += (j + 1);
+                                if (pivot < message.Length && l < depth && depthCounter<message.Length)
                                 {
                                     transpositionMatrix[j, l] = message[pivot];
                                     pivot++;
-                                    
+
                                 }
                             }
                         }
-                        if(characterCount + j+1 - message.Length > 0 && characterCount + j +1 - message.Length<j+1)
+                        if (characterCount + j + 1 - message.Length > 0 && characterCount + j + 1 - message.Length < j + 1)
                         {
-                            for(int m = 0; m < characterCount + j + 1 - message.Length; m++)
+                            for (int m = 0; m < characterCount + j + 1 - message.Length; m++)
                             {
                                 pivot--;
                                 transpositionMatrix[j, depth - m - 1] = null;

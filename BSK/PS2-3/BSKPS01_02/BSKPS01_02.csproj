@@ -59,6 +59,7 @@
     <Compile Include="Zadanie1.xaml.cs">
       <DependentUpon>Zadanie1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Zadanie1AJK.cs" />
     <Compile Include="Zadanie2.xaml.cs">
       <DependentUpon>Zadanie2.xaml</DependentUpon>
     </Compile>

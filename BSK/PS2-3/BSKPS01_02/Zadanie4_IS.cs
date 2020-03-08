@@ -12,7 +12,7 @@ namespace BSKPS01_02
         public static string Cypher(string text, string d, string k01, string k11)
         {
             text = text.ToUpper();
-            
+
             int n = int.Parse(d);
             int k0 = int.Parse(k01);
             int k1 = int.Parse(k11);
@@ -45,7 +45,7 @@ namespace BSKPS01_02
                 {
                     if (tab_cipher[i] == j)
                     {
-                      
+
                         ctext += (char)alphabet[j];
                     }
                 }
@@ -82,7 +82,7 @@ namespace BSKPS01_02
 
 
             fi--;//bo wzór do potęgi jest fi(n)-1
-            
+
             BigInteger pow = BigInteger.Pow(k1, int.Parse(fi.ToString()));
 
             int[] alphabet = new int[n];
@@ -91,7 +91,7 @@ namespace BSKPS01_02
                 alphabet[i] = 65 + i;
             }
 
-          //  double pow = Math.Pow(k1, fi);
+            //  double pow = Math.Pow(k1, fi);
             BigInteger[] tab_decrypt = new BigInteger[text.Length];
             for (int i = 0; i < text.Length; i++)
             {
