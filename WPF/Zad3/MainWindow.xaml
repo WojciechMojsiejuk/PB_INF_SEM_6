@@ -1,0 +1,99 @@
+﻿<Window x:Class="Zadanie3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Zadanie3"
+        mc:Ignorable="d"
+        MinWidth="700"
+        MaxWidth="1000"
+        MinHeight="300"
+        MaxHeight="500"
+        Title="MainWindow" Height="350" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Nakład</Label>
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" PreviewTextInput="NumberValidationTextBox" Name="Nakład" Text="0" TextChanged="count_pages" MaxLength="7" Margin="2,2,2,2"/>
+                <Label Grid.Row="1" Grid.Column="0">Format</Label>
+                <Slider Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"  Value="0" Maximum="5" Minimum="0" Name="PaperFormat" ValueChanged="PaperFormatChanged" />
+                <Label Grid.Row="1" Grid.Column="3" Content="A0 - cena 20gr/szt." HorizontalAlignment="Center" Name="PaperLabel"/>
+                <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Name="Kolorowy" Checked="EnableKolorowy" Unchecked="DisableKolorowy" Margin="5,0,0,0">Kolorowy papier - cena + 50%</CheckBox>
+                <ComboBox  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" IsEnabled="False" Name="KolorowyCombo" Margin="10,0,10,0">
+                    <ComboBoxItem Content="Żółty"></ComboBoxItem>
+                    <ComboBoxItem Content="Zielony"></ComboBoxItem>
+                    <ComboBoxItem Content="Niebieski"></ComboBoxItem>
+                </ComboBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid>
+            <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Gramatura" Grid.Column="0">
+                <StackPanel>
+                        <RadioButton Content="90 g/m2 " Checked="Radio_checked" Tag="1" IsChecked="True" Name="initial"></RadioButton>
+                        <RadioButton Content="120 g/m2 - cena x2" Checked="Radio_checked"  Tag="2"></RadioButton>
+                        <RadioButton Content="200 g/m2 - cena x2,5" Checked="Radio_checked"  Tag="2,5"></RadioButton>
+                        <RadioButton Content="240 g/m2 - cena x3" Checked="Radio_checked"  Tag="3"></RadioButton>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Opcje Wydruku" Grid.Column="1">
+                <StackPanel Name="opcje">
+                        <CheckBox Content="druk w kolorze - cena + 50%" Checked="Wydruk_checked" Unchecked="Wydruk_unchecked" Tag="0,5" Name="kolor"></CheckBox>
+                        <CheckBox Content="druk dwustronny - cena + 50%" Checked="Wydruk_checked" Unchecked="Wydruk_unchecked" Tag="0,5" Name="dwustronny"></CheckBox>
+                        <CheckBox Content="lakier UV - cena + 20%" Checked="Wydruk_checked" Unchecked="Wydruk_unchecked" Tag="0,2" Name="lakierUV"></CheckBox>
+                    </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Termin Realizacji" Grid.Column="2">
+                    <StackPanel>
+                        <RadioButton Content="Standard" Checked="Delivery_Checked" Tag="0" Name="standard" IsChecked="True"></RadioButton>
+                        <RadioButton Content="Express - cena +15zł" Checked="Delivery_Checked" Tag="15"></RadioButton>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+            <Label Grid.Row="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0">
+                    <Run FontWeight="Bold"> Podsumowanie Zamówienia </Run>
+                </Label>
+            <TextBox  Grid.Row="1" AcceptsReturn="true" Name="Description" Margin="5,5,5,5" Text="20" IsReadOnly="True"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="3" Margin="0,5,0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Padding="12,4,12,4" Margin="5,0,10,0" IsDefault="True" Name="OK" Click="OK_Click">OK</Button>
+            <Button Grid.Column="2" Padding="12,4,12,4" IsCancel="True" Click="Button_Click" Name="Anuluj">Anuluj</Button>
+        </Grid>
+    </Grid>
+</Window>
