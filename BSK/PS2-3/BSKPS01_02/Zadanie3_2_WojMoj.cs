@@ -18,14 +18,16 @@ namespace  BSKPS01_02
             //changing string to uppercase
             string key = keyword.ToUpper();
             double blockSize = ((1 + key.Length) * key.Length / 2);
-            int blocksNumber = (int)Math.Ceiling(message.Length/ blockSize);
-           
-            string encryptedMessage = "";
-            char?[,] transpositionMatrix = new char?[key.Length*blocksNumber, key.Length];
-            int index = 0;
+            int blocksNumber = (int)Math.Ceiling(message.Length / blockSize);
+            int index;
             int messageIndex = 0;
-            for(int block = 0; block<blockSize; block++)
+            string encryptedMessage = "";
+            for (int block = 0; block < blocksNumber; block++)
             {
+                char?[,] transpositionMatrix = new char?[key.Length, key.Length];
+                index = 0;
+
+                //fill transpositionMatrix
                 for (int i = 0; i < alphabet.Length; i++)
                 {
                     for (int j = 0; j < key.Length; j++)
@@ -44,133 +46,157 @@ namespace  BSKPS01_02
                         }
                     }
                 }
-            }
-            for (int i = 0; i < alphabet.Length; i++)
-            {
-                for (int j = 0; j < key.Length; j++)
-                {
-                    if (key[j] == alphabet[i])
-                    {
-                        for (int k = 0; k < key.Length*blocksNumber; k++)
-                        {
-                            if (transpositionMatrix[k, j].HasValue)
-                            {
-                                encryptedMessage += transpositionMatrix[k, j];
-                            }
-                        }
-                    }
-                }
-            }
-            for(int i = 0; i< key.Length*blocksNumber; i++)
-            {
-                for(int j = 0; j<key.Length; j++)
-                {
-                    Console.Write(transpositionMatrix[i, j]);
-                }
-                Console.Write("\n");
-            }
-            return encryptedMessage;
-        }
 
-        public static string Decypher(string message, string key)
-        {
-            message = message.ToUpper();
-            key = key.ToUpper();
-            string decryptedMessage = "";
-            int temp = 0;
-            int keyCount = 0;
-            int depth = 0;
-            int[] order = new int[key.Length];
-            int pivot = 0;
-            double blockSize = ((1 + key.Length) * key.Length / 2);
-            int blocksNumber = (int)Math.Ceiling(message.Length / blockSize);
-           
-            for(int block = 0; block<blocksNumber; block++)
-            {
                 for (int i = 0; i < alphabet.Length; i++)
                 {
                     for (int j = 0; j < key.Length; j++)
                     {
                         if (key[j] == alphabet[i])
                         {
-                            if(block == 0)
-                            { 
-                                order[j] = keyCount;
-                            }
-                            keyCount++;
-                            temp += j + 1;
-                            if (temp < message.Length)
+                            for (int k = 0; k < key.Length; k++)
                             {
-                                depth = keyCount + 1;
+                                if (transpositionMatrix[k, j].HasValue)
+                                {
+                                    encryptedMessage += transpositionMatrix[k, j];
+                                }
                             }
                         }
                     }
                 }
             }
-            
-            char?[,] transpositionMatrix = new char?[key.Length, depth];
+            return encryptedMessage;
+        }
 
-            int characterCount = 0;
-
-            BitArray previousIndexes = new BitArray(key.Length);
-            int depthCounter = 0;
+        public static string Decypher(string message, string key)
+        {
+            string decipheredMessage = "";
+            message = message.ToUpper();
+            key = key.ToUpper();
+            double blockSize = ((1 + key.Length) * key.Length / 2);
+            int blocksNumber = (int)Math.Ceiling(message.Length / blockSize);
+            int lastBlockSize = message.Length % (int)blockSize;
+            int temp = 0;
+            int keyCount = 0;
+            int depth = 0;
+            bool depthFound = false;
+            int[] order = new int[key.Length];
 
             for (int i = 0; i < alphabet.Length; i++)
             {
                 for (int j = 0; j < key.Length; j++)
                 {
-                    if (key[j] == alphabet[i] && pivot < message.Length)
+                    if (key[j] == alphabet[i])
                     {
-                        previousIndexes.SetAll(false);
-                        for (int k = 0; k < j; k++)
+                        order[j] = keyCount;
+                        keyCount++;
+                        temp += j + 1;
+                        if (!depthFound)
                         {
-                            previousIndexes[order[k]] = true;
+                            depth++;
                         }
-
-                        depthCounter = 0;
-                        for (int l = 0; l < key.Length*blocksNumber; l++)
+                        if (temp >= lastBlockSize)
                         {
-                            if(l == key.Length*(blocksNumber-1))
-                            {
-                                depthCounter = (blocksNumber - 1) * (int)blockSize;
-                            }
-                            if (previousIndexes[l%key.Length] == false)
-                            {
-                                depthCounter += (j + 1);
-                                if (pivot < message.Length && l < depth && depthCounter<message.Length)
-                                {
-                                    transpositionMatrix[j, l] = message[pivot];
-                                    pivot++;
+                            depthFound = true;
+                        }
+                    }
+                }
+            }
 
+            BitArray previousIndexes = new BitArray(key.Length);
+            int pivot = 0;
+            bool increaseTemp;
+            for (int block = 0; block < blocksNumber; block++)
+            {
+                if (block == blocksNumber - 1 && lastBlockSize != 0)
+                {
+                    //Last block
+                    char?[,] transpositionMatrix = new char?[depth, key.Length];
+                    int temp2 = 0;
+
+                    for (int i = 0; i < alphabet.Length; i++)
+                    {
+                        for (int j = 0; j < key.Length; j++)
+                        {
+                            if (key[j] == alphabet[i])
+                            {
+                                previousIndexes.SetAll(false);
+                                for (int k = 0; k < j; k++)
+                                {
+                                    previousIndexes[order[k]] = true;
+                                }
+                                increaseTemp = true;
+                                for (int l = 0; l < depth; l++)
+                                {
+                                    if (previousIndexes[l] == false && (temp2 + j + 1) <= lastBlockSize && pivot < message.Length)
+                                    {
+                                        if (increaseTemp)
+                                        {
+                                            temp2++;
+                                            increaseTemp = false;
+                                        }
+                                        transpositionMatrix[l, j] = message[pivot];
+                                        pivot++;
+                                    }
                                 }
                             }
                         }
-                        if (characterCount + j + 1 - message.Length > 0 && characterCount + j + 1 - message.Length < j + 1)
+                    }
+
+                    //decipher
+                    for (int i = 0; i < depth; i++)
+                    {
+                        for (int j = 0; j < key.Length; j++)
                         {
-                            for (int m = 0; m < characterCount + j + 1 - message.Length; m++)
+                            if (transpositionMatrix[i, j].HasValue)
                             {
-                                pivot--;
-                                transpositionMatrix[j, depth - m - 1] = null;
+                                decipheredMessage += transpositionMatrix[i, j];
                             }
                         }
-                        characterCount += j + 1;
                     }
                 }
-
-            }
-            for(int i = 0; i<depth; i++)
-            {
-                for(int j = 0; j<key.Length; j++)
+                else
                 {
-                    if(transpositionMatrix[j, i].HasValue)
+                    //Full blocks
+                    char?[,] transpositionMatrix = new char?[key.Length, key.Length];
+
+                    for (int i = 0; i < alphabet.Length; i++)
                     {
-                        decryptedMessage += transpositionMatrix[j, i];
-                        Console.Write(transpositionMatrix[j, i]);
+                        for (int j = 0; j < key.Length; j++)
+                        {
+                            if (key[j] == alphabet[i])
+                            {
+                                previousIndexes.SetAll(false);
+                                for (int k = 0; k < j; k++)
+                                {
+                                    previousIndexes[order[k]] = true;
+                                }
+
+                                for (int l = 0; l < key.Length; l++)
+                                {
+                                    if (previousIndexes[l] == false)
+                                    {
+                                        transpositionMatrix[j, l] = message[pivot];
+                                        pivot++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    //decipher
+                    for (int i = 0; i < key.Length; i++)
+                    {
+                        for (int j = 0; j < key.Length; j++)
+                        {
+                            if (transpositionMatrix[j, i].HasValue)
+                            {
+                                decipheredMessage += transpositionMatrix[j, i];
+                            }
+                        }
                     }
                 }
-                Console.Write("\n");
             }
-            return decryptedMessage;
+            return decipheredMessage;
         }
 
     }
