@@ -1,0 +1,69 @@
+﻿<Window x:Class="Zadanie_6.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Zadanie_6"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="600"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="1" DataContext="{Binding ElementName=Lista, Path=SelectedItem}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Dodaj" Content="Dodaj" Grid.Row="0" Grid.Column="0" Padding="5,3,5,3"  Margin="5,5,5,5" Click="Dodaj_Click"/>
+            <DockPanel Grid.Row="1" Grid.Column="0" LastChildFill="True" Margin="4,4,4,4">
+                <Label  Content="Imię:"  DockPanel.Dock="Left" />
+                <TextBox Name="boxImie"  Text="{Binding Path=Imie}"/>
+            </DockPanel>
+            <DockPanel Grid.Row="2" Grid.Column="0"    LastChildFill="True" Margin="4,4,4,4">
+                <Label  Content="Nazwisko:"  DockPanel.Dock="Left"/>
+                <TextBox   Text="{Binding Path=Nazwisko}"/>
+            </DockPanel>
+            <GroupBox Grid.Row="3" Grid.Column="0" >
+                <GroupBox.Header>
+                    <CheckBox Content="Dane Szczegółowe" IsChecked="False" Checked="checked_dane" Name="dane_checkbox" Unchecked="unchecked_dane"/>
+                </GroupBox.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0"  Content="Adres e-mail:"  />
+                    <TextBox Grid.Row="0" Grid.Column="1" Name="Email" IsEnabled="False" Text="{Binding Path=Email}"/>
+                    <Label Grid.Row="1" Grid.Column="0"  Content="Kwota wpłaty:" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Name="Kwota" IsEnabled="False" Text="{Binding Path=Kwota}"/>
+                    <Label Grid.Row="2" Grid.Column="0"  Content="Region:" />
+                    <ComboBox Grid.Row="2" Grid.Column="1" IsEnabled="False" Name="Area" SelectedValue="{Binding Path=Region}">
+                            
+                    </ComboBox>
+                    <Label Grid.Row="3" Grid.Column="0"  Content="Poziom Dostępu:"/>
+                    <Slider Grid.Row="3" Grid.Column="1" Name="Level" TickFrequency="1" Value="{Binding Path=Poziom}" Minimum="0" Maximum="4" IsEnabled="False" TickPlacement="BottomRight" IsSnapToTickEnabled="True" />
+                </Grid>
+            </GroupBox>
+            <Button Grid.Row="4" Grid.Column="0" Name="Usuń" Content="Usuń" Margin="10,10,10,10" Padding="5,3,5,3" Click="Usuń_Click"/>
+        </Grid>
+        <ListBox Name="Lista"  Margin="4,4,4,4" Grid.Row="0"  Grid.Column="0" DisplayMemberPath="ImieNazwisko"/>
+    </Grid>
+</Window>
