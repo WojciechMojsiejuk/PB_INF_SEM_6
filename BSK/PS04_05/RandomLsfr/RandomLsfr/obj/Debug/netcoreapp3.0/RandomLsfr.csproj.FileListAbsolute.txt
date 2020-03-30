@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\bin\Debug\netcoreapp3.0\RandomLsfr.exe
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\bin\Debug\netcoreapp3.0\RandomLsfr.deps.json
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\bin\Debug\netcoreapp3.0\RandomLsfr.runtimeconfig.json
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\bin\Debug\netcoreapp3.0\RandomLsfr.runtimeconfig.dev.json
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\bin\Debug\netcoreapp3.0\RandomLsfr.dll
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\bin\Debug\netcoreapp3.0\RandomLsfr.pdb
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\obj\Debug\netcoreapp3.0\RandomLsfr.csprojAssemblyReference.cache
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\obj\Debug\netcoreapp3.0\RandomLsfr.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\obj\Debug\netcoreapp3.0\RandomLsfr.AssemblyInfo.cs
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\obj\Debug\netcoreapp3.0\RandomLsfr.dll
+C:\Users\user\source\repos\RandomLsfr\RandomLsfr\obj\Debug\netcoreapp3.0\RandomLsfr.pdb
