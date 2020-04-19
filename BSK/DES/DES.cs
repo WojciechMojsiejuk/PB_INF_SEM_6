@@ -14,7 +14,10 @@ namespace ReusableConsoleApp
         private int[] IPtable = { 58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4, 62, 54, 46, 38, 
             30, 22, 14, 6, 64, 56, 48, 40, 32, 24, 16, 8, 57, 49, 41, 33, 25, 17, 9, 1, 59, 51, 43, 35, 27, 19, 
             11, 3, 61, 53, 45, 37, 29, 21, 13, 5, 63, 55, 47, 39, 31, 23, 15, 7 };
-        private int[] PC1table = { };
+        private int[] PC1tableLeft = { 57,49,41,33,25,17,9,1,58,50,42,34,26,16,10,2,59,51,43,35,27,19,11,3,60,52,44,36 };
+        private int[] PC1tableRight = { 63,55,47,39,31,23,15,7,62,54,46,38,30,22,14,6,61,53,45,37,29,21,13,5,28,20,12,4};
+        BitArray leftKey;
+        BitArray rightKey;
         byte[] bytes;
         private BitArray KEY;
         public DES(string sourceFile,string outputFile,string key)
@@ -23,7 +26,9 @@ namespace ReusableConsoleApp
             text = System.Text.Encoding.UTF8.GetBytes(key);
             Array.Reverse(text);
             KEY = new BitArray(text);
-            bytes = new byte[102400];
+            //podzielenie klucza na dwie czesci po 28- bitów
+            permutationPC1();
+            bytes = new byte[1024];
             //open file
             try
             {
@@ -44,6 +49,7 @@ namespace ReusableConsoleApp
                 return;
             }
         }
+        
         /// <summary>
         /// Funkcja wypisująca do konsoli BitArray do konsoli w postaci 0 i 1
         /// </summary>
@@ -61,6 +67,7 @@ namespace ReusableConsoleApp
             binaryReader.Close();
             binaryWriter.Close();
         }
+        //
         public void readBIn()
         {         
             //readfile
@@ -86,6 +93,12 @@ namespace ReusableConsoleApp
                     //podzial
                     LPT = new BitArray(split(bitArray, 0));
                     RPT = new BitArray(split(bitArray, 32));
+                    //
+                    //16 rund 
+                    for(int i = 0; i<16;i++)
+                    { 
+                        //FUNKCJE FEISTELA TUTAJ 
+                    }
                 }
             }
             catch(IOException e)
@@ -94,11 +107,19 @@ namespace ReusableConsoleApp
                 return;
             }          
         }
-        //funkcja permutujaca klucz PC-1
-        public BitArray permutationPC1(BitArray bitArray64)
+        //funkcja permutujaca PC-1 dla klucza 
+        public void permutationPC1()
         {
-            BitArray newBitArray = new BitArray(new byte[7]);
-            return newBitArray;
+            leftKey = new BitArray(new byte[4]);
+            rightKey = new BitArray(new byte[4]);
+            for(int i = 0;i<28; i++)
+            {
+                leftKey[i] = KEY[PC1tableLeft[i] - 1];
+            }
+            for (int i = 0; i < 28; i++)
+            {
+                rightKey[i] = KEY[PC1tableRight[i] - 1];
+            }
         }
 
         //funkcja dzielaca na LPT i RPT przed funkcja f
