@@ -45,13 +45,16 @@
   <ItemGroup>
     <Compile Include="BitsHelper.cs" />
     <Compile Include="DesMethods.cs" />
+    <Compile Include="DesTester.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="KeyGenerator\QueueKey.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

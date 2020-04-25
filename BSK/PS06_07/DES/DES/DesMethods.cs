@@ -10,13 +10,13 @@ namespace DES
     {
         public static bool[] Permute(int[] permutationTable, bool[] input)
         {
-            if (input.Length < 64)
-                System.Diagnostics.Debug.WriteLine("Niepelny blok, dlugosc {0}", input.Length);
-            bool[] result = new bool[64];
-            for (int i = 0; i < input.Length; i++)
+            if (input.Length != permutationTable.Length)
+                throw new ArgumentException("Permutation array length did not match argument array length");
+            bool[] result = new bool[input.Length];
+            for(int i = 0; i < permutationTable.Length; i++)
             {
-                int indexOfCurrentBit = permutationTable[i];
-                result[indexOfCurrentBit] = input[i];
+                int currentIndex = permutationTable[i];
+                result[i] = input[currentIndex];
             }
             return result;
         }
@@ -30,6 +30,22 @@ namespace DES
                 output[i] = input[currentIndex];
             }
             return output;
+        }
+
+        public static bool[] DESFunctionRK(bool[] rBitArray, bool[] key)
+        {
+            bool[] extendedRBitArray = Extend(Globals.E,rBitArray);
+            bool[] xorResult = BitsHelper.XORTwoBitArrays(extendedRBitArray, key);
+            bool[] result=new bool[0];
+            for(int i=0; i < xorResult.Length; i+=6)
+            {
+                int whichSbox = i / 6;
+                bool[] currentBits = xorResult.Skip(i).Take(6).ToArray();
+                int boundaryBitsDecimalValue = BitsHelper.ConvertBinaryToDecimalValue(new bool[] { currentBits[0], currentBits[5] });
+                int internalValues = BitsHelper.ConvertBinaryToDecimalValue(currentBits.Skip(1).Take(4).ToArray());
+                result = (result.Concat(BitsHelper.ConvertDecimalToFourBits(Globals.sBoxArrays[whichSbox][boundaryBitsDecimalValue, internalValues]))).ToArray();
+            }
+            return Permute(Globals.permuteArrayForFunctionRK,result);
         }
     }
 }
